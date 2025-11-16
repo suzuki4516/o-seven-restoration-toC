@@ -63,6 +63,71 @@
             box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
         }
 
+        /* ハンバーガーメニュー */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 70px;
+            right: -100%;
+            width: 280px;
+            height: calc(100vh - 70px);
+            background: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s;
+            z-index: 1000;
+            padding: 30px 20px;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-item {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu-item:hover {
+            background: #FFF3E0;
+            color: #FF9800;
+            padding-left: 25px;
+        }
+
+
         .logo {
             height: 50px;
             width: auto;
@@ -209,11 +274,11 @@
         /* ファーストビュー */
         .hero {
             margin-top: 70px;
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.75) 0%, rgba(69, 160, 73, 0.75) 100%), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1600&q=80');
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(193, 247, 254, 0.75) 100%), url('https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1600&q=80');
             background-size: cover;
             background-position: center;
             background-blend-mode: overlay;
-            color: white;
+            color: #333;
             padding: 80px 20px 60px;
             text-align: center;
             position: relative;
@@ -231,16 +296,67 @@
         }
 
         .hero h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
+            font-size: 48px;
+            margin-bottom: 15px;
             line-height: 1.4;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 900;
+            font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: auto;
+        }
+
+        .hero h1 .highlight {
+            color: #FF5500;
+            font-size: 1.3em;
+            display: inline-block;
+            animation: bounce 1s ease-in-out infinite;
+            text-shadow: 2px 2px 4px rgba(255, 85, 0, 0.3);
+        }
+
+        .hero h1 .accent {
+            color: #1B5E20;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(27, 94, 32, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .hero-subtitle {
-            font-size: 20px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #222;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 90%;
+            width: auto;
+        }
+
+        .hero-description {
+            font-size: 15px;
+            color: #333;
             margin-bottom: 30px;
-            opacity: 0.95;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-block;
+            max-width: 90%;
+            width: auto;
         }
 
         .hero-cta-buttons {
@@ -1030,8 +1146,9 @@
         }
 
         .floating-btn.contact {
-            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.25) 0%, rgba(245, 124, 0, 0.25) 100%);
             color: white;
+            backdrop-filter: blur(5px);
         }
 
         .floating-btn.mail {
@@ -1057,11 +1174,19 @@
         /* レスポンシブ */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 28px;
+                font-size: 32px;
+            }
+
+            .hero h1 .highlight {
+                font-size: 1.1em;
             }
 
             .hero-subtitle {
                 font-size: 16px;
+            }
+
+            .hero-description {
+                font-size: 14px;
             }
 
             .hero-cta-buttons {
@@ -1163,24 +1288,47 @@
             <div class="logo-text">O-SEVEN</div>
             <div class="header-cta">
                 <a href="#contact" class="header-cta-button">無料相談</a>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </header>
 
+    <!-- モバイルメニュー -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="#services" class="mobile-menu-item" onclick="closeMenu()">サービス</a>
+        <a href="#pricing" class="mobile-menu-item" onclick="closeMenu()">料金例</a>
+        <a href="#flow" class="mobile-menu-item" onclick="closeMenu()">ご依頼の流れ</a>
+        <a href="#faq" class="mobile-menu-item" onclick="closeMenu()">よくあるご質問</a>
+        <a href="#contact" class="mobile-menu-item" onclick="closeMenu()">お問い合わせ</a>
+    </nav>
+
     <!-- ファーストビュー -->
     <section class="hero">
-        <div class="hero-badge">✨ 見積もり無料・即日対応可能</div>
-        <h1>賃貸退去の原状回復、<br>高額請求で諦めていませんか？</h1>
-        <p class="hero-subtitle">適正価格で、確実な施工を。大阪・豊中エリアの原状回復工事専門店</p>
+        <div>
+            <div class="hero-badge">✨ 見積もり無料・即日対応可能</div>
+        </div>
+        <div>
+            <h1><span class="highlight">最大50%</span><span class="accent">削減!</span><br>原状回復コスト</h1>
+        </div>
+        <div>
+            <p class="hero-subtitle">管理会社の高額見積りにお困りの方へ</p>
+        </div>
+        <div>
+            <p class="hero-description">適正価格で確実な施工を。大阪・豊中エリアの原状回復工事専門店</p>
+        </div>
 
         <div class="hero-cta-buttons">
             <a href="#contact" class="hero-cta-button primary">今すぐ相談</a>
-            <a href="#contact" class="hero-cta-button secondary">簡単診断</a>
+            <a href="#" class="hero-cta-button secondary">簡単診断</a>
         </div>
     </section>
 
     <!-- 悩みセクション -->
-    <section class="section problems">
+    <section class="section problems" id="services">
         <h2 class="section-title">こんなお悩み、ありませんか？</h2>
         <p class="section-subtitle">賃貸退去時の原状回復、実は多くの方が困っています</p>
 
@@ -1274,7 +1422,7 @@
             </div>
         </div>
 
-        <div class="price-example scroll-reveal">
+        <div class="price-example scroll-reveal" id="pricing">
             <h3>料金例（参考価格）</h3>
             <div class="price-table">
                 <div class="price-row">
@@ -1414,7 +1562,7 @@
     </section>
 
     <!-- 施工の流れ -->
-    <section class="section flow">
+    <section class="section flow" id="flow">
         <h2 class="section-title">ご依頼の流れ</h2>
         <p class="section-subtitle">お問い合わせから完了まで、簡単5ステップ</p>
 
@@ -1469,7 +1617,7 @@
     </section>
 
     <!-- よくある質問 -->
-    <section class="section faq">
+    <section class="section faq" id="faq">
         <h2 class="section-title">よくあるご質問</h2>
         <p class="section-subtitle">お客様からよく寄せられる質問にお答えします</p>
 
@@ -1737,7 +1885,7 @@
                 <div class="diagnostic-result">
                     <h3>診断結果</h3>
                     <div id="resultContent"></div>
-                    <a href="#contact" class="cta-button primary" onclick="closeDiagnostic()">無料見積もりを依頼する</a>
+                    <a href="#contact" class="cta-button primary" onclick="goToContact()">無料見積もりを依頼する</a>
                 </div>
             </div>
         </div>
@@ -1959,6 +2107,24 @@
             `;
         }
 
+        // お問い合わせに移動する関数
+        function goToContact() {
+            closeDiagnostic();
+            setTimeout(() => {
+                const contactSection = document.querySelector('#contact');
+                if (contactSection) {
+                    const headerOffset = 70;
+                    const elementPosition = contactSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 300);
+        }
+
         // 簡単診断ボタンにイベントリスナーを追加
         document.addEventListener('DOMContentLoaded', function() {
             // ヒーローセクションの簡単診断ボタン
@@ -1970,6 +2136,21 @@
                 });
             });
         });
+
+        // ハンバーガーメニュー制御
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            menu.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
     </script>
 </body>
 </html>
