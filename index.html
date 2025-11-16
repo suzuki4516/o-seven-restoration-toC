@@ -1931,6 +1931,11 @@
         // スムーススクロール
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
+                // 簡単診断ボタンは除外（モーダル処理を優先）
+                if (this.classList.contains('hero-cta-button') && this.classList.contains('secondary')) {
+                    return;
+                }
+
                 e.preventDefault();
                 const href = this.getAttribute('href');
 
@@ -1966,6 +1971,29 @@
         };
 
         function openDiagnostic() {
+            // リセット処理を先に実行
+            diagnosticData = {
+                propertyType: '',
+                workType: '',
+                size: '',
+                urgency: ''
+            };
+
+            // 全てのステップを非表示にしてからステップ1を表示
+            document.querySelectorAll('.diagnostic-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            const firstStep = document.querySelector('.diagnostic-step[data-step="1"]');
+            if (firstStep) {
+                firstStep.classList.add('active');
+            }
+
+            // プログレスバーリセット
+            document.querySelectorAll('.progress-dot').forEach(dot => {
+                dot.classList.remove('active', 'completed');
+            });
+
+            // モーダルを表示
             document.getElementById('diagnosticModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -1973,22 +2001,6 @@
         function closeDiagnostic() {
             document.getElementById('diagnosticModal').classList.remove('active');
             document.body.style.overflow = 'auto';
-            // リセット
-            diagnosticData = {
-                propertyType: '',
-                workType: '',
-                size: '',
-                urgency: ''
-            };
-            // ステップ1に戻る
-            document.querySelectorAll('.diagnostic-step').forEach(step => {
-                step.classList.remove('active');
-            });
-            document.querySelector('[data-step="1"]').classList.add('active');
-            // プログレスバーリセット
-            document.querySelectorAll('.progress-dot').forEach(dot => {
-                dot.classList.remove('active', 'completed');
-            });
         }
 
         function selectOption(step, value) {
