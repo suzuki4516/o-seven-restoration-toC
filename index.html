@@ -64,28 +64,11 @@
             box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
         }
 
-        .header-phone {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #4CAF50;
+        .logo-text {
+            font-size: 28px;
             font-weight: bold;
-            font-size: 16px;
-            text-decoration: none;
-        }
-
-        .header-phone i {
-            font-size: 18px;
-        }
-
-        .header-phone:hover {
-            color: #45a049;
-        }
-
-        .logo {
-            height: 50px;
-            width: auto;
-            filter: brightness(0) saturate(100%) invert(87%) sepia(26%) saturate(522%) hue-rotate(154deg) brightness(103%) contrast(98%);
+            color: #4CAF50;
+            letter-spacing: 1px;
         }
 
         /* ファーストビュー */
@@ -881,10 +864,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .header-phone span {
-                display: none;
-            }
-
             .header-cta-button {
                 padding: 8px 15px;
                 font-size: 13px;
@@ -928,12 +907,8 @@
     <!-- ヘッダー -->
     <header class="header">
         <div class="header-content">
-            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=200&q=80" alt="O-SEVEN" class="logo">
+            <div class="logo-text">O-SEVEN</div>
             <div class="header-cta">
-                <a href="tel:09039489599" class="header-phone">
-                    <i class="fas fa-phone"></i>
-                    <span>090-3948-9599</span>
-                </a>
                 <a href="#contact" class="header-cta-button">無料相談</a>
             </div>
         </div>
