@@ -37,8 +37,49 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
+        }
+
+        .header-cta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-cta-button {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .header-cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .header-phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .header-phone i {
+            font-size: 18px;
+        }
+
+        .header-phone:hover {
+            color: #45a049;
         }
 
         .logo {
@@ -840,8 +881,13 @@
                 grid-template-columns: 1fr;
             }
 
-            .header-cta {
+            .header-phone span {
                 display: none;
+            }
+
+            .header-cta-button {
+                padding: 8px 15px;
+                font-size: 13px;
             }
 
             .info-row {
@@ -883,6 +929,13 @@
     <header class="header">
         <div class="header-content">
             <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=200&q=80" alt="O-SEVEN" class="logo">
+            <div class="header-cta">
+                <a href="tel:09039489599" class="header-phone">
+                    <i class="fas fa-phone"></i>
+                    <span>090-3948-9599</span>
+                </a>
+                <a href="#contact" class="header-cta-button">無料相談</a>
+            </div>
         </div>
     </header>
 
