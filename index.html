@@ -69,6 +69,143 @@
             filter: brightness(0) saturate(100%) invert(89%) sepia(53%) saturate(1529%) hue-rotate(158deg) brightness(102%) contrast(98%);
         }
 
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #C1F7FE;
+            letter-spacing: 1px;
+        }
+
+        /* 診断モーダル */
+        .diagnostic-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .diagnostic-modal.active {
+            display: flex;
+        }
+
+        .diagnostic-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .diagnostic-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s;
+        }
+
+        .diagnostic-close:hover {
+            color: #333;
+        }
+
+        .diagnostic-step {
+            display: none;
+        }
+
+        .diagnostic-step.active {
+            display: block;
+        }
+
+        .diagnostic-question {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .diagnostic-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .diagnostic-option {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .diagnostic-option:hover {
+            border-color: #FF9800;
+            background: #FFF3E0;
+            transform: translateY(-3px);
+        }
+
+        .diagnostic-result {
+            text-align: center;
+        }
+
+        .diagnostic-result h3 {
+            font-size: 28px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .diagnostic-result .price {
+            font-size: 36px;
+            font-weight: bold;
+            color: #FF9800;
+            margin: 20px 0;
+        }
+
+        .diagnostic-result .description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .diagnostic-progress {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            transition: background 0.3s;
+        }
+
+        .progress-dot.active {
+            background: #FF9800;
+        }
+
+        .progress-dot.completed {
+            background: #4CAF50;
+        }
+
         /* ファーストビュー */
         .hero {
             margin-top: 70px;
@@ -1023,7 +1160,7 @@
     <!-- ヘッダー -->
     <header class="header">
         <div class="header-content">
-            <img src="logo.png" alt="O-SEVEN" class="logo">
+            <div class="logo-text">O-SEVEN</div>
             <div class="header-cta">
                 <a href="#contact" class="header-cta-button">無料相談</a>
             </div>
@@ -1506,6 +1643,106 @@
         </a>
     </div>
 
+    <!-- 診断モーダル -->
+    <div class="diagnostic-modal" id="diagnosticModal">
+        <div class="diagnostic-content">
+            <button class="diagnostic-close" onclick="closeDiagnostic()">&times;</button>
+
+            <!-- プログレスバー -->
+            <div class="diagnostic-progress">
+                <div class="progress-dot" data-step="1"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-dot" data-step="3"></div>
+                <div class="progress-dot" data-step="4"></div>
+            </div>
+
+            <!-- Step 1: 物件タイプ -->
+            <div class="diagnostic-step active" data-step="1">
+                <h3 class="diagnostic-question">物件のタイプを教えてください</h3>
+                <div class="diagnostic-options">
+                    <div class="diagnostic-option" onclick="selectOption(1, 'apartment')">
+                        賃貸マンション・アパート
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(1, 'house')">
+                        戸建て住宅
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(1, 'office')">
+                        オフィス
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(1, 'store')">
+                        店舗（飲食店・美容室など）
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: 必要な工事 -->
+            <div class="diagnostic-step" data-step="2">
+                <h3 class="diagnostic-question">必要な工事内容は？</h3>
+                <div class="diagnostic-options">
+                    <div class="diagnostic-option" onclick="selectOption(2, 'wall')">
+                        壁・床の補修のみ
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(2, 'cleaning')">
+                        クリーニング中心
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(2, 'full')">
+                        全体的な原状回復
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(2, 'skeleton')">
+                        スケルトン工事
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: 広さ -->
+            <div class="diagnostic-step" data-step="3">
+                <h3 class="diagnostic-question">物件の広さは？</h3>
+                <div class="diagnostic-options">
+                    <div class="diagnostic-option" onclick="selectOption(3, 'small')">
+                        1R・1K（~25㎡）
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(3, 'medium')">
+                        1LDK・2K（25~50㎡）
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(3, 'large')">
+                        2LDK以上（50㎡~）
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(3, 'xlarge')">
+                        店舗・オフィス（広め）
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: 緊急度 -->
+            <div class="diagnostic-step" data-step="4">
+                <h3 class="diagnostic-question">退去期限はいつですか？</h3>
+                <div class="diagnostic-options">
+                    <div class="diagnostic-option" onclick="selectOption(4, 'urgent')">
+                        1週間以内
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(4, 'soon')">
+                        2週間~1ヶ月以内
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(4, 'normal')">
+                        1ヶ月以上先
+                    </div>
+                    <div class="diagnostic-option" onclick="selectOption(4, 'flexible')">
+                        まだ決まっていない
+                    </div>
+                </div>
+            </div>
+
+            <!-- 結果表示 -->
+            <div class="diagnostic-step" data-step="result">
+                <div class="diagnostic-result">
+                    <h3>診断結果</h3>
+                    <div id="resultContent"></div>
+                    <a href="#contact" class="cta-button primary" onclick="closeDiagnostic()">無料見積もりを依頼する</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // スクロールアニメーション
         const observerOptions = {
@@ -1569,6 +1806,168 @@
                         behavior: 'smooth'
                     });
                 }
+            });
+        });
+
+        // 診断システム
+        let diagnosticData = {
+            propertyType: '',
+            workType: '',
+            size: '',
+            urgency: ''
+        };
+
+        function openDiagnostic() {
+            document.getElementById('diagnosticModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDiagnostic() {
+            document.getElementById('diagnosticModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // リセット
+            diagnosticData = {
+                propertyType: '',
+                workType: '',
+                size: '',
+                urgency: ''
+            };
+            // ステップ1に戻る
+            document.querySelectorAll('.diagnostic-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.querySelector('[data-step="1"]').classList.add('active');
+            // プログレスバーリセット
+            document.querySelectorAll('.progress-dot').forEach(dot => {
+                dot.classList.remove('active', 'completed');
+            });
+        }
+
+        function selectOption(step, value) {
+            // データ保存
+            if (step === 1) diagnosticData.propertyType = value;
+            if (step === 2) diagnosticData.workType = value;
+            if (step === 3) diagnosticData.size = value;
+            if (step === 4) diagnosticData.urgency = value;
+
+            // プログレスバー更新
+            updateProgress(step);
+
+            // 次のステップへ
+            if (step < 4) {
+                setTimeout(() => {
+                    document.querySelectorAll('.diagnostic-step').forEach(s => {
+                        s.classList.remove('active');
+                    });
+                    document.querySelector(`.diagnostic-step[data-step="${step + 1}"]`).classList.add('active');
+                }, 300);
+            } else {
+                // 結果表示
+                setTimeout(() => {
+                    showResult();
+                }, 300);
+            }
+        }
+
+        function updateProgress(step) {
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                if (index < step) {
+                    dot.classList.add('completed');
+                    dot.classList.remove('active');
+                } else if (index === step) {
+                    dot.classList.add('active');
+                    dot.classList.remove('completed');
+                } else {
+                    dot.classList.remove('active', 'completed');
+                }
+            });
+        }
+
+        function showResult() {
+            document.querySelectorAll('.diagnostic-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.querySelector('[data-step="result"]').classList.add('active');
+
+            // 結果計算
+            const result = calculateResult();
+            document.getElementById('resultContent').innerHTML = result;
+        }
+
+        function calculateResult() {
+            let basePrice = 0;
+            let resultText = '';
+            let recommendations = [];
+
+            // 工事タイプ別の基本料金
+            if (diagnosticData.workType === 'wall') {
+                basePrice = 30000;
+                resultText = '壁・床の部分補修';
+                recommendations.push('壁穴補修');
+                recommendations.push('クロス部分張替え');
+            } else if (diagnosticData.workType === 'cleaning') {
+                basePrice = 25000;
+                resultText = 'ハウスクリーニング中心';
+                recommendations.push('ハウスクリーニング');
+                recommendations.push('簡易補修');
+            } else if (diagnosticData.workType === 'full') {
+                basePrice = 80000;
+                resultText = '全体的な原状回復工事';
+                recommendations.push('壁・床の全面張替え');
+                recommendations.push('ハウスクリーニング');
+                recommendations.push('不用品回収');
+            } else if (diagnosticData.workType === 'skeleton') {
+                basePrice = 200000;
+                resultText = 'スケルトン工事';
+                recommendations.push('内装解体');
+                recommendations.push('設備撤去');
+                recommendations.push('産業廃棄物処理');
+            }
+
+            // サイズによる調整
+            if (diagnosticData.size === 'small') {
+                basePrice *= 1;
+            } else if (diagnosticData.size === 'medium') {
+                basePrice *= 1.5;
+            } else if (diagnosticData.size === 'large') {
+                basePrice *= 2;
+            } else if (diagnosticData.size === 'xlarge') {
+                basePrice *= 3;
+            }
+
+            // 緊急度による追加情報
+            let urgencyNote = '';
+            if (diagnosticData.urgency === 'urgent') {
+                urgencyNote = '<p style="color: #FF5252; font-weight: bold;">⚠️ 1週間以内の場合、即日対応可能です！お急ぎください。</p>';
+            } else if (diagnosticData.urgency === 'soon') {
+                urgencyNote = '<p style="color: #FF9800; font-weight: bold;">📅 2週間~1ヶ月以内であれば、スケジュール調整可能です。</p>';
+            }
+
+            // 結果HTML
+            return `
+                <p class="description">あなたの物件に最適なプランは...</p>
+                <h4 style="font-size: 24px; color: #4CAF50; margin-bottom: 15px;">${resultText}</h4>
+                <div class="price">概算 ${basePrice.toLocaleString()}円〜</div>
+                ${urgencyNote}
+                <div style="text-align: left; background: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h5 style="font-size: 18px; margin-bottom: 10px;">推奨サービス：</h5>
+                    <ul style="list-style: none; padding: 0;">
+                        ${recommendations.map(r => `<li style="padding: 5px 0;">✓ ${r}</li>`).join('')}
+                    </ul>
+                </div>
+                <p class="description">※ 実際の料金は現地調査後の正式見積もりとなります。<br>物件の状態により価格は変動する場合がございます。</p>
+            `;
+        }
+
+        // 簡単診断ボタンにイベントリスナーを追加
+        document.addEventListener('DOMContentLoaded', function() {
+            // ヒーローセクションの簡単診断ボタン
+            const diagnosticButtons = document.querySelectorAll('.hero-cta-button.secondary');
+            diagnosticButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openDiagnostic();
+                });
             });
         });
     </script>
